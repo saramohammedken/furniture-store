@@ -1,15 +1,19 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { CartContext } from "@/features/cart/context/CartContext";
 import { CartItem } from "@/features/cart/types";
+import { useContextSelector } from "use-context-selector";
 
 export default function CartPage() {
-  const { state, dispatch, isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const cartItems = useContextSelector(CartContext, (v) => v.state.items);
+  const setIsCartOpen = useContextSelector(CartContext, (v) => v.setIsCartOpen);
+  const dispatch = useContextSelector(CartContext, (v) => v.dispatch);
+
   useEffect(() => {
     setIsCartOpen(false);
   }, []);
-  const total = state.items.reduce(
+  const total = cartItems.reduce(
     (sum: number, item: CartItem) => sum + item.price * item.qty,0
   );
 
@@ -18,11 +22,11 @@ export default function CartPage() {
     <div style={{ padding: "40px" }}>
       <h1 style={{ color: "var(--title)" }}>Your Cart</h1>
 
-      {state.items.length === 0 && (
+      {cartItems.length === 0 && (
         <p style={{ marginTop: "20px" }}>Your cart is empty.</p>
       )}
 
-      {state.items.map((item: CartItem, idx: number) => (
+      {cartItems.map((item: CartItem, idx: number) => (
         <div
           key={item.id}
           style={{

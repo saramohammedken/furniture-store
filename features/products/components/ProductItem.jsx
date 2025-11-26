@@ -5,9 +5,10 @@ import Card from "@/shared/ui/Card";
 import Button from "@/shared/ui/Button";
 import { CartContext } from "@/features/cart/context/CartContext";
 
+import { useContextSelector } from "use-context-selector";
+
 export default function ProductItem({ product }) {
-  const { dispatch } = useContext(CartContext);
-  const { state } = useContext(CartContext);
+  const dispatch = useContextSelector(CartContext, (v) => v.dispatch);
   return (
     <Card>
       <img

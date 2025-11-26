@@ -1,11 +1,13 @@
 "use client";
-import { useContext } from "react";
+import { useContextSelector } from "use-context-selector";
 import { CartContext } from "@/features/cart/context/CartContext";
 import Link from "next/link";
 
 export default function CartDrawer() {
-    const { state, dispatch, isCartOpen, setIsCartOpen } = useContext(CartContext);
-    const total = state.items.reduce(
+    const cartItems = useContextSelector(CartContext, (v) => v.state.items);
+    const setIsCartOpen = useContextSelector(CartContext, (v) => v.setIsCartOpen);
+    const isCartOpen = useContextSelector(CartContext, (v) => v.isCartOpen);
+    const total = cartItems.reduce(
         (sum, item) => sum + item.price * item.qty,
         0
     );
@@ -38,7 +40,7 @@ export default function CartDrawer() {
                 top: 0,
                 height: "100vh",
                 background: "white",
-                zIndex: 1000,  
+                zIndex: 1000,
                 transition: "transform 0.3s ease",
                 transform: isCartOpen ? "translateX(0)" : "translateX(100%)",
             }}>
@@ -58,11 +60,11 @@ export default function CartDrawer() {
                 </button>
 
                 <div style={{ marginTop: "60px" }}>
-                    {state.items.length === 0 && (
+                    {cartItems.length === 0 && (
                         <p style={{ marginTop: "20px" }}>Your cart is empty.</p>
                     )}
 
-                    {state.items.map((item, idx) => (
+                    {cartItems.map((item, idx) => (
                         <div
                             key={item.id}
                             style={{
@@ -79,7 +81,6 @@ export default function CartDrawer() {
                             <div>
                                 <h3 style={{ color: "var(--title)" }}>{item.name}</h3>
                                 <p>${item.price}</p>
-                                --{isCartOpen}--
                             </div>
                         </div>
                     ))}

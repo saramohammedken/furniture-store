@@ -1,5 +1,7 @@
 "use client";
-import { createContext, useReducer, useState } from "react";
+import {  useReducer, useState } from "react";
+import { createContext } from "use-context-selector";
+
 import { cartReducer, initialState } from "../reducer/cartReducer";
 
 export const CartContext = createContext();
@@ -13,7 +15,7 @@ export function CartProvider({ children }) {
         state,
         dispatch,
         isCartOpen,
-        setIsCartOpen,   // ← MUST BE INCLUDED HERE!
+        setIsCartOpen,
       }}
     >
       {children}

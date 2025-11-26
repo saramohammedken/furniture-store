@@ -4,4 +4,13 @@ export interface CartItem {
     price: number;
     img?: string; // optional
     qty: number; // optional
-  }
+}
+
+export interface CartState {
+  items: CartItem[];
+}
+
+export interface CartAction {
+  type: string;
+  payload?: any;
+}
